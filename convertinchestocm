@@ -1,0 +1,10 @@
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    float x;
+    cout << "enter any number: ";
+    cin >> x;
+    cout << "that number in inches is= " << x/2.45 << "and that number in cm is=" << x*2.45;
+}
