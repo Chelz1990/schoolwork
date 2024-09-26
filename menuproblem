@@ -1,0 +1,43 @@
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    int x, y;
+    char menu = 'D';
+
+    //Select 1 to login, and 0 to exit.
+    cout << "Please login.";
+    cin >> x;
+    if (x == 1) {
+        cout << "Welcome user!" << endl;
+    }
+    else {
+        cout << "Please try again." << endl;
+    }
+
+    cout << "Choose from the following menu: A B or C" << endl;
+    cin >> menu;
+    switch(menu) {
+        case 'A' :
+            cout << "You've selected item A." << endl;
+            break;
+        case 'B' :
+            cout << "You've selected item B." << endl;
+            break;
+        case 'C' :
+            cout << "You've selected item C." << endl;
+            break;
+        default :
+            cout << "Invalid selection." << endl;
+    }
+
+    cout << "Select 1 to return to the main menu, or 0 to exit." << endl;
+    cin >> y;
+    if (y == 1) {
+        cout << "Main Menu";
+    }
+    else {
+        cout << "You are now logged out.";
+    }
+}
