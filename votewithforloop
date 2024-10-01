@@ -1,0 +1,36 @@
+#include <iostream>
+
+using namespace std;
+
+int main () {
+    int
+        vote,
+        yesVote = 0,
+        noVote = 0;
+
+    for (int i = 1; i <= 10; i++) {
+        cout << "Cast your vote now: 1 for the candidate and 2 against the candidate." << endl;
+        cin >> vote;
+
+        if (vote == 1) {
+            yesVote++;
+        } else if (vote == 2) {
+            noVote++;
+        } else {
+            cout << "Invalid selection." << endl;
+        }
+
+        cout << "Total number of for: " << yesVote << endl;
+        cout << "Total number against: " << noVote << endl;
+    }
+
+        if (yesVote >= 8) {
+            cout << "Your candidate wins!" << endl;
+        }
+        else if (noVote >= 8) {
+            cout << "Get a new candidate." << endl;
+        }
+        else {
+            cout << "Could not determine a winner. Please run again." << endl;
+        }
+    }
