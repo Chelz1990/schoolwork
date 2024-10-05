@@ -1,0 +1,31 @@
+#include <iostream>
+using namespace std;
+
+//establish base case
+void total(int x, int y, int & evensum) {
+    if (x > y)
+        return;
+
+    if (x % 2 == 0)
+        evensum += x;
+    else
+        cout << "Error" << endl;
+
+    total(x + 1, y, evensum);
+}
+
+int main() {
+    int
+        x,
+        y,
+        even = 0;
+    cout << "Enter your first number: " << endl;
+    cin >> x;
+    cout << "Enter a second number: " << endl;
+    cin >> y;
+    
+    total(x, y, even);
+
+    cout << "The sum of the even numbers within the given range is " << even << endl;
+
+}
