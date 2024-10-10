@@ -1,0 +1,75 @@
+#include<iostream>
+#include <string.h> //when trying to use strlen clion suggested switch to string.h
+
+using namespace std;
+
+int main() {
+    char msg[100];
+    int
+        i,
+        length,
+        choice,
+        key;
+    
+    cout<<"Enter the message: " << endl;
+    cin.getline(msg,100);
+    cout << "Enter key: ";
+    cin >> key;
+    length = strlen(msg);
+    cout<<"Enter your choice: 1 for encryption or 2 for decryption: " << endl;
+    cin>>choice;
+
+    if (choice==1) {
+        char ch;
+        for(int i = 0; msg[i] != '\0'; ++i) {
+            ch = msg[i];
+            //for uppercase letters
+            if(ch >= 'A' && ch <= 'Z') {
+                ch = ch + key;
+                if(ch < 'A') {
+                    ch = ch + 'Z' - 'A' - 1;
+                }
+                msg[i] = ch;
+            }
+            //for lowercase letters
+            else if (ch >= 'a' && ch <= 'z') {
+                ch = ch + key;
+                if(ch < 'z') {
+                    ch = ch - 'z' + 'a' - 1;
+                }
+                msg[i] = ch;
+            }
+        }
+
+        cout << "Your encrypted message: " << msg;
+
+    }
+        else if (choice == 2) {
+        char ch;
+        for(int i = 0; msg[i] != '\0'; ++i) {
+            ch = msg[i];
+            //for uppercase letters
+            if(ch >= 'A' && ch <= 'Z') {
+                ch = ch - key;
+                if(ch < 'A') {
+                    ch = ch + 'Z' - 'A' + 1;
+                }
+                msg[i] = ch;
+            } //for lowercase letters
+            else if (ch >= 'a' && ch <= 'z') {
+                ch = ch - key;
+                if(ch < 'a') {
+                    ch = ch + 'z' - 'a' + 1;
+                }
+                msg[i] = ch;
+            }
+        }
+
+            cout << "Your decrypted message: " << msg;
+
+    } else {
+        cout << "Error. Try again." << endl;
+    }
+
+    return 0;
+}
