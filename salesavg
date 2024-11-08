@@ -1,0 +1,64 @@
+#include <iostream>
+#include <vector>
+#include <numeric>
+#include <string>
+
+using namespace std;
+
+void fillVector(vector<string> & salesPerVec, vector<double> & salesAmtVec) {
+    string name;
+    double salesAmt;
+
+    for(;;) {
+        cout << "Enter name of the sales person (or type 'end' to finish input)." << endl;
+        cin >> name;
+        cout << "Enter the total sales amount for that sales person (or type 'end' to finish input)." << endl;
+        cin >> salesAmt;
+
+        if (name == "end") {
+            break;
+        }
+
+        salesPerVec.push_back(name);
+        salesAmtVec.push_back(salesAmt);
+    }
+}
+
+double average (const vector<double> & salesAmtVec) {
+    int numValues = salesAmtVec.size();
+
+    if (numValues <= 0) {
+        return 0.0;
+    } else if (numValues > 0) {
+        double sum = accumulate(salesAmtVec.begin(), salesAmtVec.end(), 0.0);
+        return sum / numValues;
+    } else {
+        cout << "Error!";
+    }
+
+}
+
+void displayResults (const vector<double> & salesAmtVec, const vector<string> & salesPerVec, double avg) {
+    for (int i = 0; i < salesPerVec.size(); i++) {
+        cout << "The amount for sales person" << " " << salesPerVec[i] << " " << "is: ";
+        cout << salesAmtVec[i] << " ";
+        cout << "and the average based on total sales average " << "is: " << salesAmtVec[i] - avg << endl;
+    }
+}
+
+int main() {
+
+vector <string> salesPerVec;
+vector <double> salesAmtVec;
+
+fillVector(salesPerVec, salesAmtVec);
+
+double avg = average(salesAmtVec);
+
+cout << "The average is " << avg << endl;
+
+displayResults(salesAmtVec, salesPerVec, avg);
+
+return 0;
+    
+}
