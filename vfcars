@@ -1,0 +1,60 @@
+#include <iostream>
+
+using namespace std;
+
+//base Car Shape
+
+class Car {
+public:
+    virtual ~Car() {
+        //virtual destructor
+        cout << "Base Class Destructor" << endl;
+    }
+    virtual double distance() const = 0; //virtual function for Area
+};
+
+//Ford class
+class Ford : public Car {
+private:
+    double rate;
+    double speed;
+public:
+    Ford(double r, double s) : rate(r), speed(s) {}
+
+    double distance() const override { //area for rectangle
+        return rate * speed;
+    }
+};
+
+//Hyundai class
+class Hyundai : public Car {
+private:
+    double rate;
+    double speed;
+public:
+    Hyundai(double r, double s) : rate(r), speed(s) {}
+
+    double distance() const override { //area for rectangle
+        return rate * speed;
+    }
+};
+
+int main() {
+
+Ford ford(30, 25);
+Hyundai hyundai(45, 25);
+
+//base class pointers
+Car* car1 = &ford;
+Car* car2 = &hyundai;
+
+//distance of two cars
+cout << "Distance of Ford: " << car1->distance() << endl;
+cout << "Distance of Hyundai: " << car2->distance() << endl;
+
+delete car1; //destructor for Ford
+delete car2; //destructo for Hyundai
+
+return 0;
+
+}
