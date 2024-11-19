@@ -1,0 +1,25 @@
+#include <iostream>
+
+using namespace std;
+
+//function for swapping integers
+void swap (int* a, int* b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+int main (){
+
+int x = 5,
+y = 15;
+
+cout << "Before swapping: X = " << x <<  " and Y = " << y << endl;
+
+swap(&x, &y);
+
+cout << "Before swapping: X = " << x <<  " and Y = " << y << endl;
+
+return 0;
+
+}
