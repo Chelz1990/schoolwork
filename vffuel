@@ -1,0 +1,71 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+//base class Vehicle
+class Vehicle {
+    public:
+    virtual void fuelEfficieny() const = 0;
+    virtual ~Vehicle() {
+        cout << "Destructor called.";
+    }
+};
+
+//derived class car
+class Car : public Vehicle {
+    public:
+    void fuelEfficieny() const override {
+        cout << "The fuel efficiency of a car is 35 miles per gallon." << endl;
+    }
+};
+
+class Bicycle : public Vehicle {
+public:
+    void fuelEfficieny() const override {
+        cout << "The fuel efficiency of a bike is 10 miles per gallon." << endl;
+    }
+};
+
+class Boat : public Vehicle {
+public:
+    void fuelEfficieny() const override {
+        cout << "The fuel efficiency of a Boat is 8 miles per gallon." << endl;
+    }
+};
+
+class Train : public Vehicle {
+public:
+    void fuelEfficieny() const override {
+        cout << "The fuel efficiency of a Train is 5 miles per gallon." << endl;
+    }
+};
+
+class Truck : public Vehicle {
+public:
+    void fuelEfficieny() const override {
+        cout << "The fuel efficiency of a Truck is 15 miles per gallon." << endl;
+    }
+};
+
+//main program
+int main() {
+
+//vector
+    vector<Vehicle*> vehicles;
+
+    vehicles.push_back(new Car);
+    vehicles.push_back(new Bicycle);
+    vehicles.push_back(new Boat);
+    vehicles.push_back(new Train);
+    vehicles.push_back(new Truck);
+
+    for (Vehicle* Car : vehicles) {
+        Car->fuelEfficieny();
+    }
+
+    Vehicle* vehicle = new Car();
+    delete vehicle;
+
+    return 0;
+}
