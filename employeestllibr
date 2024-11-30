@@ -1,0 +1,117 @@
+#include <iostream>
+#include <map>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+class Employee {
+private:
+    string name;
+    int id;
+    double salary;
+
+public:
+    Employee() = default;
+
+    Employee(const string& name, int id, double salary) : name(name), id(id), salary(salary) {
+    }
+    
+};
+
+int main() {
+    string name;
+    int id, option;
+    double salary;
+
+    vector<pair<int, string>> empVec;
+    map<int, string> empMap;
+    vector<double> empSal;
+
+    for (int i = 0; i < 10; i++) {
+        cout << "Enter name of the Employee: " << endl;
+        cin >> name;
+        cout << "Enter ID of the Employee: " << endl;
+        cin >> id;
+        cout << "Enter salary of the Employee: " << endl;
+        cin >> salary;
+
+        //make_pair was suggested by clion
+        empVec.push_back(make_pair(id, name));
+        empSal.push_back(salary);
+    }
+
+    empMap.insert(make_pair(id, name));
+
+    do {
+        cout << "What would you like to do next?\n";
+        cout << "1. Find Employee by ID\n";
+        cout << "2. List all Employees by ID\n";
+        cout << "3. List Employee by Name\n";
+        cout << "4. List Employee by Salary\n";
+        cout << "5. Exit\n";
+        cin >> option;
+
+        switch (option) {
+            case 1: {
+                int searchID;
+                cout << "Enter ID of the Employee: " << endl;
+                cin >> searchID;
+
+                bool found = false;
+
+                for (const auto& emp : empVec) {
+                    if (emp.first == searchID) {
+                        cout << "Employees name: " << emp.second << endl;
+                        found = true;
+                        break;
+                    }
+
+                    if (!found) {
+                        cout << "No Employee matches the ID number" << endl;
+                    }
+                }
+
+                break;
+            }
+            case 2: {
+                sort(empVec.begin(), empVec.end());
+
+                for (const auto& emp : empVec) {
+                    cout << "Employee IDs: " << emp.first << endl;
+                }
+
+                break;
+            }
+            case 3: {
+                sort(empVec.begin(), empVec.end());
+
+                for (const auto& emp : empVec) {
+                    cout << "Employee Name: " << emp.second << endl;
+                }
+                break;
+            }
+            case 4: {
+
+                sort(empVec.begin(), empVec.end());
+
+                for (const auto& employee : empSal) {
+                   cout << "Employee salaries: " << employee << endl;
+                }
+
+                break;
+            }
+            case 5: {
+                cout << "Now exiting program..." << endl;
+                exit(0);
+            }
+            default:
+                cout << "Invalid choice.\n";
+        }
+    } while (option != 5);
+
+    return 0;
+}
+
+
