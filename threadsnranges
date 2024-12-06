@@ -1,0 +1,70 @@
+#include <iostream>
+#include <vector>
+#include <thread>
+
+// Function to get partial sum of each range
+void rangeSum (int begin, int end, long long& partial, int thread) {
+    std::cout << "Thread " << thread << " range (" << begin << ", " << end << ")" << std::endl;
+    partial = 0;
+    for (int i = begin; i <= end; ++i) {
+        partial += i;
+    }
+    std::cout << "Thread " << thread << " sum: " << partial << "\n";
+}
+
+int main() {
+    int N, T;
+    long long total = 0;
+
+    // User input
+    std::cout << "Enter the top number of the range: ";
+    std::cin >> N;
+    std::cout << "Enter the number of threads: ";
+    std::cin >> T;
+
+    // Check numbers are positive
+    if (N <= 0 || T <= 0) {
+        std::cout << "Both the range of numbers and the threads must be positive. Please try again.\n";
+        exit(0);
+    }
+
+    // Calculate ranges
+    int rangeSize = N / T;
+    int remainingRange = N % T;
+
+    // Vectors for threads and thread results
+    std::vector<std::thread> threads;
+    std::vector<long long> results(T, 0);
+
+    // Range to start first thread
+    int begin = 1;
+
+    // Create threads
+    for (int i = 0; i < T; ++i) {
+        int end = begin + rangeSize - 1 + (i < remainingRange ? 1 : 0);
+        threads.emplace_back(rangeSum, begin, end, std::ref(results[i]), i + 1);
+        begin = end + 1;
+    }
+
+    // Some fun little interactions with end user!
+    std::cout << "Creating threads...\n";
+    std::cout << "Calculating ranges and totals...\n";
+
+    // Join threads
+    for (auto& t : threads) {
+        t.join();
+    }
+
+    // Get total sum
+    for (const auto& partialSum : results) {
+        total += partialSum;
+    }
+
+    // Output results
+    std::cout << "Total 1-" << N << ": " << total << std::endl;
+
+    // Letting end user know the program finished successfully!
+    std::cout << "Threads finished.\n";
+
+    return 0;
+}
