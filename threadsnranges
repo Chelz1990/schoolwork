@@ -3,18 +3,39 @@
 #include <thread>
 
 // Function to get partial sum of each range
-void rangeSum (int begin, int end, long long& partial, int thread) {
-    std::cout << "Thread " << thread << " range (" << begin << ", " << end << ")" << std::endl;
+void partialSum (int begin, int fin, double& partial, int thread_num) {
+    std::cout << "Thread " << thread_num << " range (" << begin << ", " << fin << ")" << std::endl;
     partial = 0;
-    for (int i = begin; i <= end; ++i) {
+
+    for (int i = begin; i <= fin; ++i) {
         partial += i;
     }
-    std::cout << "Thread " << thread << " sum: " << partial << "\n";
+
+    std::cout << "Thread " << thread_num << " sum: " << partial << std::endl;
+}
+
+// Function to create threads
+void createThreads (int N, int T, int begin, std::vector<std::thread>& threads, std::vector<double> results) {
+    // Calculate range
+    int getRange = N / T;
+    int remainingRange = N % T;
+
+    //add threads to vector and make them sleep for 1 second
+    for (int i = 0; i < T; ++i) {
+        int end = begin + getRange - 1 + (i < remainingRange ? 1 : 0);
+        threads.emplace_back(partialSum, begin, end, std::ref(results[i]), i + 1); //emplace_back suggested by c-lion.
+        begin = end + 1;
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
+
+    // Let end user know the program is running
+    std::cout << "Creating threads..." << std::endl;
+    std::cout << "Calculating ranges and totals..." << std::endl;
 }
 
 int main() {
     int N, T;
-    long long total = 0;
+    long total = 0;
 
     // User input
     std::cout << "Enter the top number of the range: ";
@@ -22,49 +43,27 @@ int main() {
     std::cout << "Enter the number of threads: ";
     std::cin >> T;
 
-    // Check numbers are positive
-    if (N <= 0 || T <= 0) {
-        std::cout << "Both the range of numbers and the threads must be positive. Please try again.\n";
-        exit(0);
-    }
-
-    // Calculate ranges
-    int rangeSize = N / T;
-    int remainingRange = N % T;
-
     // Vectors for threads and thread results
     std::vector<std::thread> threads;
-    std::vector<long long> results(T, 0);
+    std::vector<double> totals(T, 0);
 
-    // Range to start first thread
-    int begin = 1;
+    // Call function
+    createThreads(N, T, 0, threads, totals);
 
-    // Create threads
-    for (int i = 0; i < T; ++i) {
-        int end = begin + rangeSize - 1 + (i < remainingRange ? 1 : 0);
-        threads.emplace_back(rangeSum, begin, end, std::ref(results[i]), i + 1);
-        begin = end + 1;
-    }
 
-    // Some fun little interactions with end user!
-    std::cout << "Creating threads...\n";
-    std::cout << "Calculating ranges and totals...\n";
-
-    // Join threads
+    // Join and wait for threads to finish
     for (auto& t : threads) {
         t.join();
     }
 
     // Get total sum
-    for (const auto& partialSum : results) {
+    for (const auto& partialSum : totals) {
         total += partialSum;
     }
 
-    // Output results
-    std::cout << "Total 1-" << N << ": " << total << std::endl;
-
-    // Letting end user know the program finished successfully!
-    std::cout << "Threads finished.\n";
+    // Final output and let end user know the program finished successfully!
+    std::cout << "Total sum of all threads: " << total << std::endl;
+    std::cout << "Threads finished." << std::endl;
 
     return 0;
 }
